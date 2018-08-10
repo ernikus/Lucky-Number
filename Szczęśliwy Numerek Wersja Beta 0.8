@@ -1,0 +1,78 @@
+#include <iostream>
+#include <conio.h>
+#include <cstdlib>
+#include <ctime>
+#include <sstream>
+#include <string>
+#include <time.h>
+#include <windows.h>
+
+using namespace std;
+
+string napis;
+string napis_2 = "Program 'Szczesliwy numerek'";
+string napis_3 = "Wersja 1.00";
+string napis_4 = "Wpisz ostatni, maksymalny numer: ";
+string napis_5 = "Nacisnij Spacje zeby zatrzymac losowanie";
+
+int x, y, c;
+int z[50];
+int b;
+
+int losowanie();
+
+int liczba_uczniow()
+{
+    cout << napis_4;
+    cin >> y;
+    losowanie();
+}
+
+int losowanie()
+{
+    for(int k=1; k<=y; k++)
+    {
+        b=0;
+        x=(rand()%y)+1;
+        for(int j=0; j<=y; j++)
+        {
+            if(x==z[j])
+            {
+            b+=1;
+            }
+            else
+            {
+            b+=0;
+            }
+        }
+        if(b==0)
+            {
+            SYSTEMTIME st;
+            GetLocalTime(&st);
+
+            int dzien = st.wDay;
+            int miesiac = st.wMonth;
+            int rok = st.wYear;
+
+            cout << k << ". " << dzien << "/" <<  miesiac << "/" << rok << " => " << x << endl;
+            z[k-1]=x;
+            Sleep(1000);
+            }
+            else
+            {
+            k-=1;
+            }
+     }
+    return 0;
+}
+
+int main()
+{
+    srand(time(NULL));
+    cout << napis_2 << endl;
+    cout << napis_3 << endl;
+
+    liczba_uczniow();
+
+    return 0;
+}
