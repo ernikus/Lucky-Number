@@ -1,26 +1,27 @@
 #include <iostream> //for input/output operations
 #include <random>   //for random numbers
-#include <stdlib.h> //exit command
 #include <string>   //string
 
-#ifdef _WIN32
+#if defined _WIN32 || defined _WIN64
     #include <Windows.h>
     #define CLEAR "cls"
-#endif
-#ifdef __linux__
+#elif defined __linux__
     #include <unistd.h>
     #define CLEAR "clear"
+#else
+    #error "unknown platform"
 #endif
 
 #define wipe() system( CLEAR )  //to clear the console screen use wipe();
 
 void mySleep(int sleepMs)
 {
-    #ifdef _WIN32
+    #if defined _WIN32 || defined _WIN64
         Sleep(sleepMs);
-    #endif
-    #ifdef __linux__
+    #elif defined __linux__
         usleep(sleepMs * 1000);   // usleep takes sleep time in us (1 millionth of a second)
+    #else
+        #error "unknown platform"
     #endif
 }
 
@@ -34,7 +35,7 @@ int main()
     
     int max_number = 32;
     std::string input;
-    cout << "Input Maximum Number(default: 32): ";
+    cout << "Input Maximum Number(higher than 2; default: 32): ";
     std::getline(std::cin, input);
 
     for(int j=0; j<input.size(); ++j)
@@ -45,7 +46,11 @@ int main()
         }
     
     if ( !input.empty() )
-        max_number = std::stoi(input);
+    {
+        short trial_num = std::stoi(input);
+        if(trial_num>2)
+            max_number = trial_num;
+    }
         
     cout << max_number << endl;
     mySleep(1500);
@@ -57,8 +62,22 @@ int main()
 
     short tab[3] {};
 
-    tab[0] = 23;    //even if max_number will be lower than 23 it still save 23 and 27
-    tab[1] = 27;    //this is on purpose!
+    if(max_number == 32)
+    {
+        tab[0] = 23;
+        tab[1] = 28;
+    }
+    else
+        for(int loop_i=0; loop_i<2; ++loop_i)
+        {
+            short test;
+            do
+            {
+                test = rand_num(gen);
+            }   while(test==tab[0]);
+
+            tab[loop_i] = test;
+        }
 
     int time {};
 
