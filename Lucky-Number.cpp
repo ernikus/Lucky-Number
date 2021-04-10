@@ -38,8 +38,8 @@ int main()
     cout << "Input Maximum Number(higher than 2; default: 32): ";
     std::getline(std::cin, input);
 
-    for(int j=0; j<input.size(); ++j)
-        if(!isdigit(input[j]))
+    for(int loop_i=0; loop_i<input.size(); ++loop_i)
+        if(!isdigit(input[loop_i]))
         {
             input = "";
             break;
@@ -106,7 +106,7 @@ int main()
         do
         {
             test = rand_num_order(gen);
-        }   while(test==order[0] || test==order[1] || test==order[2]);
+        }   while(test==order[0] || test==order[1]);
 
         order[loop_i] = test;
     }
